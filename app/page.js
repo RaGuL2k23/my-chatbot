@@ -2,9 +2,13 @@ import SignOutButton from "./components/Logout";
 
 export default function HomePage() {
   return (
-    <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div><SignOutButton /></div>
-      <h1 style={{ fontSize: '2rem', fontWeight: 'bold' }}>Welcome to Gemini Chatbot App</h1>
+    <main className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white px-4">
+      <div className="mb-6">
+        <SignOutButton />
+      </div>
+      <h1 className="text-3xl font-bold text-gray-800 text-center">
+        Welcome to Gemini Chatbot App
+      </h1>
     </main>
   );
 }

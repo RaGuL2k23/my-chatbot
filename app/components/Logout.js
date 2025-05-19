@@ -6,10 +6,17 @@ import { createClient } from "../utils/supabase/client"
 const SignOutButton = () =>{
     const supabase = createClient();
     const router = useRouter();
-    const logout = ()=>{
-        supabase.auth.signOut();
-        router.push('/auth/login');
-    }
+    const logout = async () => {
+        const { error } = await supabase.auth.signOut();
+      
+        if (!error) {
+          // Optional: force reload if you're still "logged in"
+          router.refresh(); // If using App Router
+          router.push('/auth/login');
+        } else {
+          console.error("Logout error:", error.message);
+        }
+      };
 
     return <>
         <button onClick={logout}

@@ -1,11 +1,12 @@
-import { createServerClient } from "@supabase/ssr";
-import { NextResponse } from "next/server";
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse } from 'next/server';
 
-export const createClient = (request) => {
+/**
+ * Middleware to check Supabase session and redirect unauthenticated users
+ */
+export const updateSession =  async (request) => {
   let supabaseResponse = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
+    request,
   });
 
   const supabase = createServerClient(
@@ -21,9 +22,7 @@ export const createClient = (request) => {
             request.cookies.set(name, value);
           });
 
-          supabaseResponse = NextResponse.next({
-            request,
-          });
+          supabaseResponse = NextResponse.next({ request });
 
           cookiesToSet.forEach(({ name, value, options }) => {
             supabaseResponse.cookies.set(name, value, options);
@@ -33,5 +32,20 @@ export const createClient = (request) => {
     }
   );
 
-  return { supabase, response: supabaseResponse };
-};
+  // DO NOT MOVE THIS OR PLACE OTHER LOGIC BEFORE IT
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // Redirect to /login if user is not logged in and not on an auth route
+  if (
+    !user &&
+    !request.nextUrl.pathname.startsWith('/login') &&
+    !request.nextUrl.pathname.startsWith('/auth')
+  ) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/login';
+    return NextResponse.redirect(url);
+  }
+
+  // Always return the supabaseResponse
+  return supabaseResponse;
+}
