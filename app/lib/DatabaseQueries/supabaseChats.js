@@ -3,12 +3,18 @@ import { createClient } from '../../utils/supabase/client';
 const supabase = createClient(); //    actual client instance
 
 // Get all chats for a user
-export async function getUserChats(userId) {
-  const { data, error } = await supabase
+export async function getUserChats(userId, limit) {
+  let query = supabase
     .from('chats')
     .select('*')
     .eq('user_id', userId)
     .order('created_at', { ascending: false });
+
+  if (limit !== undefined) {
+    query = query.limit(limit);
+  }
+
+  const { data, error } = await query;
 
   if (error) throw error;
   return data;
@@ -25,6 +31,27 @@ export async function createNewChat(userId, title = null) {
   if (error) throw error;
   return data;
 }
+
+export async function deleteChat(chatId) {
+  // First delete messages related to this chat
+  const { error: msgError } = await supabase
+    .from('messages')
+    .delete()
+    .eq('chat_id', chatId)
+
+  if (msgError) throw msgError
+
+  // Then delete the chat itself
+  const { error: chatError } = await supabase
+    .from('chats')
+    .delete()
+    .eq('id', chatId)
+
+  if (chatError) throw chatError
+
+  return true
+}
+
 
 // Rename a chat
 export async function updateChatTitle(chatId, newTitle) {

@@ -8,6 +8,7 @@ import { Upload, Loader2, SendHorizontal } from 'lucide-react'
 import { getUserChats, createNewChat } from '../lib/DatabaseQueries/supabaseChats'
 import { getMessagesForChat } from '../lib/DatabaseQueries/supabaseMessage'
 import ChatList from './ChatList'  // Import your ChatList component here
+import { getOrCreateChat } from '../lib/DatabaseQueries/chatManager'
 
 const MAX_CONTEXT_MESSAGES = 20
 
@@ -108,7 +109,10 @@ export const ChatUI = ({ userSessionData }) => {
           userId={userSessionData.user.id}
           currentChatId={currentChatId}
           setCurrentChatId={setCurrentChatId} 
+          setMessages={setMessages}
+
         />
+        
       </div>
 
       {/* Chat Panel */}
@@ -116,29 +120,21 @@ export const ChatUI = ({ userSessionData }) => {
         {/* Chat Header */}
         <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-4 text-white font-bold text-2xl text-center shadow-md relative">
           AI Document Chat
-
-          <button
-            onClick={async () => {
-              if (messages.length === 0) {
-                console.log('Current chat has no messages. No need to create a new chat.')
-                return
-              }
-
-              const now = new Date()
-              const title = now.toLocaleString(undefined, {
-                dateStyle: 'medium',
-                timeStyle: 'short',
-              })
-
-              const newChat = await createNewChat(userSessionData.user.id, title)
-              console.log('Started new chat:', newChat)
-              setCurrentChatId(newChat.id)
-              setMessages([])
-            }}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 px-3 py-1 bg-gray-600 hover:bg-gray-500 text-sm rounded-lg"
-          >
-            + New Chat
-          </button>
+ <button
+  onClick={async () => {
+    try {
+      const { chatId, isNew } = await getOrCreateChat(userSessionData.user.id)
+      setCurrentChatId(chatId)
+      setMessages([]) // clear messages when switching or creating new
+      console.log(isNew ? 'Created new chat' : 'Switched to existing chat')
+    } catch (err) {
+      console.error('Failed to create or get chat:', err)
+    }
+  }}
+  className="absolute right-4 top-1/2 transform -translate-y-1/2 px-3 py-1 bg-gray-600 hover:bg-gray-500 text-sm rounded-lg"
+>
+  + New Chat
+</button>
         </div>
 
         {/* Chat Display Area */}
