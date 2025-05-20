@@ -1,42 +1,60 @@
-export async function sendFileQuestion(file, question, appendMessage, setFile, setQuestion) {
-  console.log('[Frontend] sendFileQuestion start');
+import axios from 'axios'
 
+export async function sendFileQuestion(file, question, appendMessage, setFile, setQuestion) {
   if (!file) {
-    console.log('[Frontend] No file provided, aborting.');
-    appendMessage('Please select a PDF file.', false);
-    return;
+    appendMessage('Please select a PDF file.', false)
+    return
   }
 
-  console.log('[Frontend] File info:', file);
-  appendMessage(`(Debug - Selected File: ${file.name})`, false);
+  if (!question.trim()) {
+    appendMessage('Please enter a question about the PDF.', false)
+    return
+  }
+
+  appendMessage(`📎 (File Selected: ${file.name})`, false)
 
   try {
-    const reader = new FileReader();
+    // 1. Extract text from the PDF
+    const formData = new FormData()
+    formData.append('file', file)
 
-    reader.onload = (event) => {
-      if (event.target?.result) {
-        const fileContent = event.target.result;
-        console.log('[Frontend] PDF File Content:', fileContent); // <---- PRINT FILE CONTENT HERE
-        appendMessage(`(Debug - File Content):\n${fileContent.slice(0, 500)}... (Full content in console)`, false);
-      } else {
-        console.error('[Frontend] FileReader result is null or undefined.');
-        appendMessage('Error reading the file.', false);
-      }
+    const extractRes = await axios.post('/api/extract-pdf', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
 
-      // We are NOT making a fetch request to the backend now.
-      // setQuestion(''); // Keep the question for now if you want to inspect it
-      // setFile(null);    // Keep the file state for now if you want to inspect it
-    };
+    const extractedText = extractRes.data.text
+    appendMessage(`📄 (Preview of Extracted Text):\n${extractedText.slice(0, 300)}...`, false)
 
-    reader.onerror = (error) => {
-      console.log('[Frontend] FileReader error:', error);
-      appendMessage('Error reading the file.', false);
-    };
+    // 2. Create the prompt for Gemini
+    const prompt = `
+You are an AI assistant. A user has uploaded a PDF and asked a question about it.
 
-    reader.readAsText(file); // Try reading as text (might not be perfect for raw PDF)
+Here is the extracted text from the PDF:
+"""
+${extractedText}
+"""
+
+Here is the user's question:
+"${question}"
+
+Please provide a helpful answer based only on the above content.
+    `.trim()
+
+    // 3. Send prompt to Gemini
+    const geminiRes = await axios.post('/api/gemini', { message: prompt })
+    const reply = geminiRes.data.reply || 'No reply from Gemini.'
+
+    appendMessage(reply, false)
+
+    // 4. Clear inputs
+    setFile(null)
+    setQuestion('')
 
   } catch (error) {
-    console.error('[Frontend] Error during file reading:', error);
-    appendMessage('An error occurred while trying to read the file.', false);
+    console.error('❌ sendFileQuestion error:', error)
+    const msg = error.response?.data?.message || 'An error occurred during file analysis or Gemini request.'
+    appendMessage(msg, false)
   }
 }
