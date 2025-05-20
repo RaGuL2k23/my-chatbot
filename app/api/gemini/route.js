@@ -26,10 +26,11 @@ export const POST = async (req) => {
     return NextResponse.json({ reply })
   } catch (err) {
     console.error('❌ Gemini API error:', err.message)
-    console.error('📦 Error response:', err.response?.data || err)
+    const errorReason = err.response?.data || err
+    console.error('📦 Error response:', errorReason)
 
     return NextResponse.json(
-      { reply: 'Something went wrong while contacting Gemini API. May be check wifi' },
+      { reply: 'Something went wrong while contacting Gemini API.  '+ errorReason },
       { status: 500 }
     )
   }

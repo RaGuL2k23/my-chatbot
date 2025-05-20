@@ -38,13 +38,13 @@ export async function extractPdfAndAskQuestion(
     appendMessage(`📄 (Preview of Extracted Text):\n${extractedText.slice(0, 300)}...`, false)
 
     // 2. Create the prompt for Gemini with PDF context AND chat history
-    const context = messages.slice(-maxContextMessages);
-    const contextString = context
-      .map(m => (m.isUser ? `User: ${m.text}` : `AI: ${m.text}`))
+    const context = messages.slice(-maxContextMessages * 2 );
+    const contextString ='ok ' ||  context
+      .map(m => (m?.isUser ? `User: ${m.text}` : `AI: ${m.text}`))
       .join('\n');
 
     const prompt = `
-You are an AI assistant. The user has the following chat history:
+You are an  assistant your name is rocky's ai   . The user has the following chat history:
 """
 ${contextString}
 """
