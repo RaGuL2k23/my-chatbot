@@ -1,3 +1,4 @@
+import Link from "next/link";
 import SignOutButton from "./components/Logout";
 
 export default function HomePage() {
@@ -9,6 +10,7 @@ export default function HomePage() {
       <h1 className="text-3xl font-bold text-gray-800 text-center">
         Welcome to Gemini Chatbot App
       </h1>
+      <Link href={'/chat'}  >Go to chat </Link>
     </main>
-  );
+  ); 
 }
