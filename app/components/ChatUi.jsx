@@ -104,24 +104,24 @@ export function ChatUI() {
           {file && <span className="ml-2 text-sm max-w-[100px] truncate">{file.name}</span>}
         </label>
 
-       <textarea
-  className="flex-1 p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out resize-none min-h-[3rem] max-h-[140px] overflow-y-auto"
-  value={textInput}
-  onChange={e => setTextInput(e.target.value)}
-  placeholder={file ? `Ask about "${file.name}"...` : 'Type your message here...'}
-  disabled={isExtracting}
-  rows={1}
-  onInput={(e) => {
-    e.target.style.height = 'auto'
-    e.target.style.height = `${Math.min(e.target.scrollHeight, 140)}px`
-  }}
-  onKeyDown={(e) => {
-    if (e.key === 'Enter' && !e.shiftKey && (textInput.trim() || file) && !isExtracting) {
-      e.preventDefault()
-      handleSend()
-    }
-  }}
-/>
+        <textarea
+          className="flex-1 p-3 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out resize-none min-h-[3rem] max-h-[140px] overflow-y-auto"
+          value={textInput}
+          onChange={e => setTextInput(e.target.value)}
+          placeholder={file ? `Ask about "${file.name}"...` : 'Type your message here...'}
+          disabled={isExtracting}
+          rows={1}
+          onInput={(e) => {
+            e.target.style.height = 'auto'
+            e.target.style.height = `${Math.min(e.target.scrollHeight, 140)}px`
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey && (textInput.trim() || file) && !isExtracting) {
+              e.preventDefault()
+              handleSend()
+            }
+          }}
+        />
 
 
 

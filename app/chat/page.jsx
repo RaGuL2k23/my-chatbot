@@ -1,7 +1,6 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { createClient } from '@/app/utils/supabase/server'
-import dynamic from 'next/dynamic'
+import { createClient } from '@/app/utils/supabase/server' 
 import { ChatUI } from '../components/ChatUi'
 
 
