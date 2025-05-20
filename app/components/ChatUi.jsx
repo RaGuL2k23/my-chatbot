@@ -5,10 +5,11 @@ import ChatBubble from './ChatBubble'
 import { sendTextMessage } from '../lib/sendTextMessage'
 import { extractPdfAndAskQuestion } from '../lib/extractPdfAndAskQuestion'
 import { Upload, Loader2, SendHorizontal } from 'lucide-react'
+import { getUserChats } from '../lib/DatabaseQueries/supabaseChats' 
 
 const MAX_CONTEXT_MESSAGES = 20
 
-export function ChatUI() {
+export const  ChatUI = ({userSessionData}) => {
   const [messages, setMessages] = useState([])
   const [textInput, setTextInput] = useState('')
   const [file, setFile] = useState(null)
@@ -19,7 +20,15 @@ export function ChatUI() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isExtracting])
-
+  useEffect(()=>{
+    const getCurrentChat = async ()=>{   
+      const data = userSessionData
+      const res = await getUserChats( data.user?.id )
+      console.log( res ,  'chats ', data.user?.id);
+      
+    }
+    getCurrentChat()
+  }, [textInput])
   const appendMessage = (text, isUser) => {
     setMessages(msgs => [...msgs, { text, isUser }])
   }
