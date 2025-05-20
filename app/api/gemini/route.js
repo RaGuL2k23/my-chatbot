@@ -13,7 +13,8 @@ export const POST = async (req) => {
     return NextResponse.json({ reply: 'Server misconfiguration: API key missing.' }, { status: 500 })
   }
 
-  try {
+  try { 
+    
     const response = await axios.post(
       `${GEMINI_API_URL}?key=${apiKey}`,
       {

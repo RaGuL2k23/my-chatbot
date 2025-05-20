@@ -22,7 +22,7 @@ export async function sendText(textInput, messages, appendMessage) {
     const reply = res.data.reply || 'No reply.'
     appendMessage(reply, false)
   } catch (err) {
-    console.error('Error from Gemini API:', err)
+    console.log('Error from Gemini API:', err , err.message)
     appendMessage('❌ Error: Something went wrong. Try again.', false)
   }
 }

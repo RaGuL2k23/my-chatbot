@@ -13,8 +13,7 @@ export function ChatUI() {
 
   const appendMessage = (text, isUser) => {
     setMessages(msgs => [...msgs, { text, isUser }])
-  }
-  console.log('file is ' , file )
+  } 
   return (
     <div className="flex flex-col gap-4">
       {/* Chat display */}
@@ -58,7 +57,7 @@ export function ChatUI() {
           value={question}
           onChange={e => setQuestion(e.target.value)}
         />
-        <button
+        {/* <button
           onClick={async () => {
             await sendFileQuestion(file, question, appendMessage, setFile, setQuestion)
             if (fileInputRef.current) fileInputRef.current.value = null // ✅ Reset file input
@@ -66,7 +65,38 @@ export function ChatUI() {
           className="px-4 py-2 bg-green-600 text-white rounded"
         >
           Ask File
-        </button>
+        </button> */}
+        <button
+  onClick={async () => {
+    if (!file) return alert('Please upload a PDF first.');
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/parse', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      console.log('📄 Extracted PDF Text:', data.text); // ✅ LOGS THE PDF TEXT
+
+      appendMessage('PDF content logged to console ✅', true);
+    } catch (err) {
+      console.error('❌ Error reading PDF:', err);
+      appendMessage('Failed to read PDF ❌', true);
+    }
+
+    setFile(null);
+    setQuestion('');
+    if (fileInputRef.current) fileInputRef.current.value = null;
+  }}
+  className="px-4 py-2 bg-green-600 text-white rounded"
+>
+  Ask File
+</button>
+
       </div>
     </div>
   )

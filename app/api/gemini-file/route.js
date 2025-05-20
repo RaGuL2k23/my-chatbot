@@ -1,39 +1,28 @@
-import { IncomingForm } from 'formidable'
-import fs from 'fs'
-import pdf from 'pdf-parse'
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-}
+import { GoogleGenAI } from '@google/genai'
 
 export async function POST(req) {
-  const form = new IncomingForm()
+  try {
+    const { question, pdfText } = await req.json()
 
-  const { fields, files } = await new Promise((resolve, reject) => {
-    form.parse(req, (err, fields, files) => {
-      if (err) reject(err)
-      else resolve({ fields, files })
+    const genAI = new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY,
     })
-  })
 
-  if (!files.file) {
-    return new Response(JSON.stringify({ reply: 'No file uploaded' }), { status: 400 })
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+
+    const result = await model.generateContent([pdfText, `\n\nQuestion: ${question}`])
+    const response = await result.response
+    const answer = await response.text()
+
+    return new Response(JSON.stringify({ answer }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  } catch (err) {
+    console.error(err)
+    return new Response(JSON.stringify({ error: 'Server Error' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    })
   }
-
-  // Use formidable's temp path, **do NOT hardcode file paths**
-  const filePath = files.file.filepath || files.file.path
-
-  // Read the uploaded file from temp path
-  const dataBuffer = fs.readFileSync(filePath)
-
-  const pdfData = await pdf(dataBuffer)
-
-  return new Response(
-    JSON.stringify({
-      reply: `Extracted text:\n${pdfData.text.slice(0, 500)}`,
-    }),
-    { status: 200 }
-  )
 }
