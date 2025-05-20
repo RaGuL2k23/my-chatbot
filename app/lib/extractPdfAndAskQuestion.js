@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+import { addMessageToChat } from '@/app/lib/DatabaseQueries/supabaseMessage'
+
 export async function extractPdfAndAskQuestion(
   file,
   question,
@@ -7,74 +9,58 @@ export async function extractPdfAndAskQuestion(
   setFile,
   setIsExtracting,
   messages,
-  maxContextMessages
+  maxContextMessages,
+  chatId // ✅ New param
 ) {
-  if (!file) {
-    appendMessage('Please select a PDF file.', false)
-    return
-  }
-
-  if (!question.trim()) {
-    appendMessage('Please enter a question about the PDF.', false)
+  if (!file || !question.trim()) {
+    appendMessage('❌ Please select a file and ask a question.', false)
     return
   }
 
   appendMessage(`📎 (File Selected: ${file.name})`, false)
+  await addMessageToChat(chatId, 'user', question) // ✅ Save question
 
   try {
-    setIsExtracting(true) // Set extracting state at the beginning
+    setIsExtracting(true)
 
-    // 1. Extract text from the PDF
     const formData = new FormData()
     formData.append('file', file)
 
     const extractRes = await axios.post('/api/extract-pdf', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+      headers: { 'Content-Type': 'multipart/form-data' },
     })
 
     const extractedText = extractRes.data.text
-    appendMessage(`📄 (Preview of Extracted Text):\n${extractedText.slice(0, 300)}...`, false)
+    appendMessage(`📄 Extracted Preview:\n${extractedText.slice(0, 300)}...`, false)
 
-    // 2. Create the prompt for Gemini with PDF context AND chat history
-    const context = messages.slice(-maxContextMessages * 2 );
-    const contextString ='ok ' ||  context
-      .map(m => (m?.isUser ? `User: ${m.text}` : `AI: ${m.text}`))
-      .join('\n');
+    const context = messages.slice(-maxContextMessages * 2)
+    const contextString = context
+      .map(m => (m.isUser ? `User: ${m.text}` : `AI: ${m.text}`))
+      .join('\n')
 
     const prompt = `
-You are an  assistant your name is rocky's ai   . The user has the following chat history:
+You are an assistant named Rocky's AI. Here's the chat history:
 """
 ${contextString}
 """
-
-The user has now uploaded a PDF and asked a question about it.
-
-Here is the extracted text from the PDF:
+PDF content:
 """
 ${extractedText}
 """
-
-Here is the user's question:
-"${question}"
-
-Please provide a helpful answer based only on the above PDF content, while also considering the prior conversation if relevant.
+Question: "${question}"
+Answer based on the PDF and conversation.
     `.trim()
 
-    // 3. Send prompt to Gemini
     const geminiRes = await axios.post('/api/gemini', { message: prompt })
-    const reply = geminiRes.data.reply || 'No reply from Gemini.'
+    const reply = geminiRes.data.reply || 'No reply.'
 
     appendMessage(reply, false)
+    await addMessageToChat(chatId, 'assistant', reply) // ✅ Save response
 
-    // 4. Clear file state
     setFile(null)
-
   } catch (error) {
-    console.error('❌ extractPdfAndAskQuestion error:', error)
-    const msg = error.response?.data?.message || 'An error occurred during file analysis or Gemini request.'
-    appendMessage(msg, false)
+    console.error('extractPdfAndAskQuestion error:', error)
+    appendMessage('❌ Error: ' + error.message, false)
   } finally {
     setIsExtracting(false)
   }
