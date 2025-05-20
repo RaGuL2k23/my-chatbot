@@ -2,8 +2,8 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/app/utils/supabase/server'
 import dynamic from 'next/dynamic'
+import { ChatUI } from '../components/ChatUi'
 
-const ChatUI = dynamic(() => import('../components/ChatUi'), { ssr: true })
 
 export default async function ChatPage() {
   const cookie = await cookies()
@@ -15,8 +15,8 @@ export default async function ChatPage() {
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">Welcome, {data.user.email}!</h1>
+    <div className="p-6 max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Welcome, {data.user.email}!</h1>
       <ChatUI />
     </div>
   )
