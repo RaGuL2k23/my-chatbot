@@ -24,7 +24,7 @@ const AuthForm = ({ type }) => {
     if (result.error) {
       setErrorMsg(result.error.message);
     } else {
-      router.push('/');
+      router.push('/chat');
     }
   };
 
