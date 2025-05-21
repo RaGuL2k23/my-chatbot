@@ -17,7 +17,7 @@ export async function POST(request) {
     // Parse PDF from buffer (not from file path)
     const pdfData = await pdfParse(buffer);
 
-    console.log('Extracted Text:', pdfData.text);
+    // console.log('Extracted Text:', pdfData.text);
 
     return NextResponse.json({ message: 'Success', text: pdfData.text });
 

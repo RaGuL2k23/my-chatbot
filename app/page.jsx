@@ -21,9 +21,32 @@ export default function HomePage() {
           Go to Chat
         </Link>
       </div>
-      <footer className="absolute bottom-4 text-sm text-gray-500">
-        Powered by Gemini & Supabase
-      </footer>
+ <footer className="absolute bottom-4 w-full text-center text-sm text-gray-100 space-y-1">
+  <p>
+    Powered by Gemini & Supabase — created by{' '}
+    <a
+      href="https://raguls.vercel.app/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-200 hover:underline"
+    >
+      Ragul
+    </a>
+  </p>
+  <p className="font-semibold">for Build Fast With AI</p>
+  <p>
+    <a
+      href="https://github.com/RaGuL2k23/my-chatbot"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-400 hover:underline"
+    >
+      GitHub
+    </a>
+  </p>
+</footer>
+
+
     </main>
   );
 }

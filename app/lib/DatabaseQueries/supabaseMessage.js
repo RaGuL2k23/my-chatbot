@@ -15,7 +15,7 @@ export async function getMessagesForChat(chatId) {
     console.error('Error fetching messages:', error)
     return []
   }
-  console.log('mesages ' , data );
+  console.log('mesages rocky ' , data ,'sdf');
   
   // Ensure consistent shape for UI
   return data.map(msg => {

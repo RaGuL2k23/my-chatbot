@@ -13,7 +13,7 @@ const ChatInput = ({
   handleSend,
 }) => {
   return (
-    <div className="flex items-end gap-3 p-4 border-t border-gray-700 bg-gray-900">
+<div className="flex flex-col sm:flex-row items-stretch sm:items-end gap-3 p-4 border-t border-gray-700 bg-gray-900">
       <input
         type="file"
         accept="application/pdf"

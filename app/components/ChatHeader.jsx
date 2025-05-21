@@ -6,7 +6,7 @@ import { getOrCreateChat } from '../lib/DatabaseQueries/chatManager';
 const ChatHeader = ({ userSessionData, setCurrentChatId, setMessages ,refreshChatList }) => {
   return (
     <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-4 text-white font-bold text-2xl text-center shadow-md relative">
-      AI Document Chat
+<p className='sm:block hidden '>AI Document Chat</p>
       <button
         onClick={async () => {
           try {

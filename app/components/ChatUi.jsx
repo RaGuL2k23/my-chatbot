@@ -100,7 +100,7 @@ export const ChatUI = ({ userSessionData ,currentChatId ,setCurrentChatId , mess
 
   return (
     //h-screen flex flex-col overflow-hidden
-<div className="flex border border-blue-400 overflow-hidden flex-col h-screen ">
+<div className="flex overflow-hidden flex-col h-screen ">
       {/* Chat Header */}
       <ChatHeader
         userSessionData={userSessionData}

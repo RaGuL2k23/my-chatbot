@@ -22,7 +22,11 @@ export const ChatMain = ({ userSessionData }) => {
   }
 
   return (
-    <div className="flex relative flex-1 border border-yellow-400 text-white bg-gray-800 rounded-lg shadow-md overflow-hidden">
+    <section className="flex flex-col ">
+        {/* <div className="  mx-auto w-full px-4 sm:px-6 lg:px-8 py-1">
+        <h1 className="text-2xl font-bold text-gray-100 mb-6">Welcome, {userSessionData.user.email}!</h1>
+      </div> */}
+        <div className="flex relative flex-1     text-white bg-gray-800 rounded-lg shadow-md overflow-hidden">
 
       {/* Collapse/Open Button */}
       <button
@@ -68,5 +72,6 @@ export const ChatMain = ({ userSessionData }) => {
         />
       </main>
     </div>
+    </section>
   )
 }
