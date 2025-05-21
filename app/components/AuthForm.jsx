@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'; 
 import { createClient } from '../utils/supabase/client';
-import Link from 'next/link'; // ✅ Import Link for proper Next.js routing
+import Link from 'next/link';  
+
+// resuable form for both signup and login 
 
 const AuthForm = ({ type }) => {
   const supabase = createClient();
