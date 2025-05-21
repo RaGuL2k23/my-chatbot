@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react' 
+import { useState, useRef, useEffect } from 'react'
 import { sendTextMessage } from '../lib/sendTextMessage'
-import { extractPdfAndAskQuestion } from '../lib/extractPdfAndAskQuestion' 
+import { extractPdfAndAskQuestion } from '../lib/extractPdfAndAskQuestion'
 import { getUserChats, createNewChat } from '../lib/DatabaseQueries/supabaseChats'
-import { getMessagesForChat } from '../lib/DatabaseQueries/supabaseMessage' 
+import { getMessagesForChat } from '../lib/DatabaseQueries/supabaseMessage'
 import ChatHeader from './ChatHeader'
 import ChatInput from './ChatInput'
 import ChatDisplay from './ChatDisplay'
@@ -12,12 +12,12 @@ import ChatDisplay from './ChatDisplay'
 const MAX_CONTEXT_MESSAGES = 20
 
 export const ChatUI = ({ userSessionData ,currentChatId ,setCurrentChatId , messages , setMessages , refreshChatList}) => {
-   const [textInput, setTextInput] = useState('')
+  const [textInput, setTextInput] = useState('')
   const [file, setFile] = useState(null)
   const [isExtracting, setIsExtracting] = useState(false)
   const fileInputRef = useRef(null)
   const messagesEndRef = useRef(null)
- 
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isExtracting])
@@ -46,7 +46,7 @@ export const ChatUI = ({ userSessionData ,currentChatId ,setCurrentChatId , mess
     }
 
     getCurrentChat()
-  }, [userSessionData?.user?.id])
+  }, [userSessionData?.user?.id, setCurrentChatId])
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -56,7 +56,7 @@ export const ChatUI = ({ userSessionData ,currentChatId ,setCurrentChatId , mess
     }
 
     fetchMessages()
-  }, [currentChatId])
+  }, [currentChatId, setMessages])
 
   const appendMessage = (text, isUser) => {
     setMessages(msgs => [...msgs, { text, isUser }])
@@ -99,38 +99,35 @@ export const ChatUI = ({ userSessionData ,currentChatId ,setCurrentChatId , mess
   }
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] max-w-7xl mx-auto text-white">
-      {/* Sidebar: Chat List */}
-       
-
-      {/* Chat Panel */}
-      <div className="flex-1 flex flex-col rounded-xl shadow-2xl overflow-hidden bg-gray-900 border border-gray-800">
-        {/* Chat Header */}
-<ChatHeader 
-  userSessionData={userSessionData} 
-  setCurrentChatId={setCurrentChatId} 
-  setMessages={setMessages} 
-  refreshChatList={refreshChatList}
-/>
-        {/* Chat Display Area */}
-         <ChatDisplay
-  messages={messages}
-  isExtracting={isExtracting}
-  messagesEndRef={messagesEndRef}
-/>
-
-
-        {/* Input Area */}
-        <ChatInput 
-  isExtracting={isExtracting}
-  file={file}
-  setFile={setFile}
-  textInput={textInput}
-  setTextInput={setTextInput}
-  fileInputRef={fileInputRef}
-  handleSend={handleSend}
-/>
-
+    //h-screen flex flex-col overflow-hidden
+<div className="flex border border-blue-400 overflow-hidden flex-col h-screen ">
+      {/* Chat Header */}
+      <ChatHeader
+        userSessionData={userSessionData}
+        setCurrentChatId={setCurrentChatId}
+        setMessages={setMessages}
+        refreshChatList={refreshChatList}
+      />
+      {/* Chat Display Area  flex-1 overflow-y-auto p-4 min-h-0 */}
+      <div className="
+      flex-1 min-h-0 overflow-hidden">
+        <ChatDisplay
+          messages={messages}
+          isExtracting={isExtracting}
+          messagesEndRef={messagesEndRef}
+        />
+      </div>
+      {/* Input Area */}
+      <div className="p-4 border-t border-gray-700">
+        <ChatInput
+          isExtracting={isExtracting}
+          file={file}
+          setFile={setFile}
+          textInput={textInput}
+          setTextInput={setTextInput}
+          fileInputRef={fileInputRef}
+          handleSend={handleSend}
+        />
       </div>
     </div>
   )

@@ -64,7 +64,8 @@ const ChatInput = ({
       <button
         onClick={handleSend}
         className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition duration-200 ease-in-out"
-        disabled={isExtracting || (!textInput.trim() && !file)}
+        disabled={isExtracting || (!file && !textInput.trim()) || (file && !textInput.trim())}
+
       >
         {isExtracting ? (
           <Loader2 className="animate-spin h-5 w-5" />

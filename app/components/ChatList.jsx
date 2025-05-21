@@ -1,18 +1,17 @@
 'use client'
-
 import { useEffect, useState } from 'react'
 import { deleteChat, getUserChats } from '@/app/lib/DatabaseQueries/supabaseChats'
 import { getMessagesForChat } from '@/app/lib/DatabaseQueries/supabaseMessage'
 import { Trash2 } from 'lucide-react'
 
 const ChatList = ({
-  userId,             // string: Supabase user ID
-  currentChatId,      // string or null: currently active chat ID
-  setCurrentChatId,   // function: sets current chat ID in parent
-  setMessages ,        // function: sets messages in parent
-  chats , 
+  userId,        // string: Supabase user ID
+  currentChatId,   // string or null: currently active chat ID
+  setCurrentChatId, // function: sets current chat ID in parent
+  setMessages ,     // function: sets messages in parent
+  chats ,
   setChats
-}) => { 
+}) => {
   const [loading, setLoading] = useState(false)
 
   // Load chats on mount or when userId changes
@@ -75,30 +74,28 @@ const ChatList = ({
   }
 
   return (
-    <div className="bg-gray-800 text-white p-4 border-r border-gray-700 w-full max-w-xs">
-      <h2 className="text-lg font-semibold mb-4">Your Chats</h2>
-
-      {loading && <p>Loading...</p>}
+    <div className="space-y-2">
+      {loading && <p className="text-gray-400 text-sm">Loading chats...</p>}
       {!loading && chats.length === 0 && (
-        <p className="text-gray-400 text-sm">No chats yet.</p>
+        <p className="text-gray-500 text-sm">No chats available.</p>
       )}
 
-      <ul className="space-y-2">
+      <ul>
         {chats.map(chat => (
-          <li key={chat.id} className="flex items-center justify-between">
+          <li key={chat.id} className="flex items-center justify-between rounded-md">
             <button
               onClick={() => handleChatClick(chat)}
-              className={`w-full text-left p-2 rounded-lg transition ${
+              className={`w-full text-left py-2 px-3 rounded-md transition-colors duration-200 focus:outline-none ${
                 chat.id === currentChatId
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-700 hover:bg-gray-600'
+                  ? 'bg-indigo-500 text-white'
+                  : 'hover:bg-gray-600 text-gray-300'
               }`}
             >
               {chat.title}
             </button>
             <button
               onClick={() => handleDeleteChat(chat.id)}
-              className="ml-2 text-gray-400 hover:text-red-500 focus:outline-none"
+              className="ml-2 text-gray-500 hover:text-red-500 focus:outline-none transition-colors duration-200"
               aria-label={`Delete chat "${chat.title}"`}
             >
               <Trash2 className="h-4 w-4" />

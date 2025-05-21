@@ -3,7 +3,7 @@ import SignOutButton from "./components/Logout";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-zinc-800 text-white px-4 py-8">
+    <main className="min-h-screen overflow-hidden flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-zinc-800 text-white px-4 py-8">
       <div className="absolute top-4 right-4">
         <SignOutButton />
       </div>
