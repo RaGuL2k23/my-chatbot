@@ -9,9 +9,10 @@ const ChatList = ({
   userId,             // string: Supabase user ID
   currentChatId,      // string or null: currently active chat ID
   setCurrentChatId,   // function: sets current chat ID in parent
-  setMessages         // function: sets messages in parent
-}) => {
-  const [chats, setChats] = useState([])
+  setMessages ,        // function: sets messages in parent
+  chats , 
+  setChats
+}) => { 
   const [loading, setLoading] = useState(false)
 
   // Load chats on mount or when userId changes

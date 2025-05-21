@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { createClient } from '@/app/utils/supabase/server' 
-import { ChatUI } from '../components/ChatUi'
+import { createClient } from '@/app/utils/supabase/server'
+import { ChatMain } from '../components/ChatMainUi'
 
 
 export default async function ChatPage() {
@@ -16,7 +16,8 @@ export default async function ChatPage() {
   return (
     <div className="p-6  max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Welcome, {data.user.email}!</h1> 
-      <ChatUI userSessionData = {data} />
+      {/* <p> {JSON.stringify(data)} </p> */}
+      <ChatMain userSessionData = {data} />
     </div>
   )
 }
