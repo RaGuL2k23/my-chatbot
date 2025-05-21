@@ -1,0 +1,141 @@
+📁 Project Directory Structure  
+ 
+
+.gitignore  
+  - Specifies files/folders to exclude from Git (e.g., node_modules, .env).
+
+eslint.config.mjs  
+  - ESLint configuration for code style and quality enforcement.
+
+jsconfig.json  
+  - JavaScript tooling config (e.g., for path aliases in VS Code).
+
+next.config.mjs  
+  - Next.js configuration file for build/runtime settings.
+
+package.json  
+  - Project metadata and dependencies.
+
+package-lock.json  
+  - Exact dependency versions used during installation.
+
+postcss.config.mjs  
+  - PostCSS config used in Tailwind CSS and other style tooling.
+
+README.md  
+  - Project documentation overview, setup instructions, and usage guide.
+
+
+📁 app/ – Main Application Logic (Pages, API routes)
+ 
+
+app/favicon.ico  
+  - App icon.
+
+app/globals.css  
+  - Global styles, including Tailwind imports.
+
+app/layout.jsx  
+  - Root layout used by all pages (includes shared headers, styles, etc).
+
+app/middleware.js  
+  - Middleware for authentication or route protection.
+
+app/page.jsx  
+  - Root landing page (e.g., home or redirect to /auth/chat).
+
+app/api/extract-pdf/route.js  
+  - API route to extract text from uploaded PDFs.
+
+app/api/gemini/route.js  
+  - API route to communicate with Gemini API (chat responses).
+
+app/auth/login/page.jsx  
+  - Login page with email/password form.
+
+app/auth/signup/page.jsx  
+  - Signup/registration page.
+
+app/chat/page.jsx  
+  - Main Chat page (protected route, uses `ChatMainUi`).
+
+📁 components/ – React UI Components
+ 
+
+AuthForm.jsx  
+  - Login and signup form logic and UI.
+
+ChatBubble.jsx  
+  - Component for individual chat message (user or AI).
+
+ChatDisplay.jsx  
+  - Displays all messages in a scrollable view.
+
+ChatHeader.jsx  
+  - Header bar with "New Chat" button.
+
+ChatInput.jsx  
+  - Text input field and send button.
+
+ChatList.jsx  
+  - Sidebar that lists all chats for the user.
+
+ChatMainUi.jsx  
+  - Manages layout between ChatList and ChatUI.
+
+ChatUi.jsx  
+  - The core chat logic (calls Gemini, updates state, etc).
+
+Logout.jsx  
+  - Sign out button that logs user out via Supabase.
+
+
+
+📁 lib/ – Utility Functions and Handlers
+ 
+extractPdfAndAskQuestion.js  
+  - Extracts text from uploaded PDFs and sends it to Gemini.
+
+sendTextMessage.js  
+  - Sends user messages to Gemini and returns the response.
+
+lib/DatabaseQueries/chatManager.js  
+  - High-level logic to create or get the latest chat.
+
+lib/DatabaseQueries/supabaseChats.js  
+  - Functions for CRUD operations on `chats` table (create, get, delete).
+
+lib/DatabaseQueries/supabaseMessage.js  
+  - Functions for handling chat messages (save, fetch, etc).
+
+
+📁 utils/ – Supabase Client Setup
+
+utils/supabase/client.js  
+  - Supabase client for client-side use.
+
+utils/supabase/middleware.js  
+  - Middleware logic (if needed) for Supabase session handling.
+
+utils/supabase/server.js  
+  - Supabase client for server-side logic (used in API routes).
+
+
+📁 docs/ – Documentation & Submission Artifacts
+ 
+ docs/chatUi.png  
+  - Screenshot of chat UI for submission or documentation.
+
+docs/database_schema.txt  
+  - Schema used for `users`, `chats`, and `messages` tables (SQL or structure description).
+
+docs/sample_chat.txt  
+  - Sample file with user questions and chatbot responses (required by the assignment).
+
+
+
+📁 public/ – Static Files
+ 
+public/file.svg, globe.svg, etc  
+  - Icons or images used in the UI (accessible via /public path in browser).
+

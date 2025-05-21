@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📚 Gemini Chatbot with PDF Upload & History (Full Stack Project)
 
-## Getting Started
+Welcome to my full stack chatbot application powered by the **Gemini API**! This project allows users to:
 
-First, run the development server:
+✅ Upload and chat with PDF documents  
+✅ View and store chat history  
+✅ Authenticate securely via Supabase  
+✅ Interact through a polished React + Next.js UI  
+✅ Experience a persistent session with real-time messaging
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+🟢 [Live Demo →](https://my-chatbot-bice-omega.vercel.app)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## ✨ Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 🔐 **User Authentication** using Supabase (Signup, Login, Logout)
+- 📄 **PDF Upload** with automatic text extraction using `pdf-parse`
+- 🤖 **Chat with AI** via Gemini API integration
+- 💬 **Chat History** stored and retrieved per user
+- 📁 **Persistent Sessions** across multiple logins
+- 🧾 **Database-backed** with PostgreSQL for chats/messages
+- 🧠 **Intelligent Context Handling** for more relevant responses
+- 🎯 Fully responsive and styled with TailwindCSS
+- 🚀 Deployed via **Vercel**
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🔧 Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Frontend     | Backend/API       | Auth & DB        |
+|--------------|------------------|------------------|
+| Next.js 14   | Next.js App Router | Supabase (PostgreSQL) |
+| React        | REST API Routes   | Supabase Auth (JWT) |
+| TailwindCSS  | Gemini API        | Prisma-like Supabase queries |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🧠 How It Works
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Authentication**: Supabase manages user sessions via JWT tokens.
+- **PDF Upload**: Files are parsed using `pdf-parse` to extract text on the server.
+- **Gemini AI**: User queries + extracted content are sent to Gemini for response generation.
+- **Chat History**: Chats are saved in a Supabase database under each user.
+- **Retrieval**: Users can open old conversations via a chat list UI.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📂 Project Structure Overview
+

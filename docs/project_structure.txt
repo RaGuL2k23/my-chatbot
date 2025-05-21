@@ -1,0 +1,63 @@
+Project Directory Structure:
+
+.gitignore
+eslint.config.mjs
+jsconfig.json
+next.config.mjs
+package-lock.json
+package.json
+postcss.config.mjs
+README.md
+
+app/
+├── favicon.ico
+├── globals.css
+├── layout.jsx
+├── middleware.js
+├── page.jsx
+├── api/
+│   ├── extract-pdf/
+│   │   └── route.js
+│   └── gemini/
+│       └── route.js
+├── auth/
+│   ├── login/
+│   │   └── page.jsx
+│   └── signup/
+│       └── page.jsx
+├── chat/
+│   └── page.jsx
+├── components/
+│   ├── AuthForm.jsx
+│   ├── ChatBubble.jsx
+│   ├── ChatDisplay.jsx
+│   ├── ChatHeader.jsx
+│   ├── ChatInput.jsx
+│   ├── ChatList.jsx
+│   ├── ChatMainUi.jsx
+│   ├── ChatUi.jsx
+│   └── Logout.jsx
+├── lib/
+│   ├── extractPdfAndAskQuestion.js
+│   ├── sendTextMessage.js
+│   └── DatabaseQueries/
+│       ├── chatManager.js
+│       ├── supabaseChats.js
+│       └── supabaseMessage.js
+└── utils/
+    └── supabase/
+        ├── client.js
+        ├── middleware.js
+        └── server.js
+
+docs/
+├── chatUi.png
+├── database_schema.txt
+└── sample_chat.txt
+
+public/
+├── file.svg
+├── globe.svg
+├── next.svg
+├── vercel.svg
+└── window.svg

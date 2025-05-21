@@ -24,6 +24,7 @@ export const metadata = {
     "Next.js",
     "Ragul",
     "Document AI",
+    "with memory "
   ],
   creator: "Ragul",
   themeColor: "#0f172a",
@@ -46,7 +47,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "AI Document Chatbot by Ragul",
     description: "Chat with documents using AI. Built with Supabase & Gemini.",
-    creator: "@yourTwitterHandle", // optional
+    creator: "@yourTwitterHandle", 
     images: ["https://ragul2k23.github.io/homepage/images/port.jpg"],
   },
 };
