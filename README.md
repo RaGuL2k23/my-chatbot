@@ -135,10 +135,7 @@ Supabase for auth and DB
 Gemini API for chatbot
 
 pdf-parse for PDF extraction
-
-📧 Submission
-Please submit your GitHub repo + live app link via email as instructed.
-Contact [your mentor's email] if you have any questions.
+ 
 
 Made with ❤️ for Internship Assignment
 
